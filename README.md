@@ -47,8 +47,11 @@ cd PhishCatcher
 
 ### 2. Set up Python environment
 bash
+
 conda create -n phishcatcher python=3.10 -y
+
 conda activate phishcatcher
+
 pip install -r backend/requirements.txt 
 
 ### 3. Download the trained model
