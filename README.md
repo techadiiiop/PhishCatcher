@@ -45,24 +45,22 @@ PhishCatcher/
 git clone https://github.com/YOUR_USERNAME/PhishCatcher.git
 cd PhishCatcher
 
-Set up Python environment
-
+### 2. Set up Python environment
+bash
 conda create -n phishcatcher python=3.10 -y
 conda activate phishcatcher
-pip install -r backend/requirements.txt
+pip install -r backend/requirements.txt 
 
-Download the trained model
+### 3. Download the trained model
 The model file is not included in GitHub due to size. Download it from [this link] and place bigru_phishing_best.h5 and tokenizer.pkl inside backend/.
 
-Run the backend
-
+### 4. Run the backend
+bash
 cd backend
 python app.py
 Server runs at http://localhost:5000
 
-Load the Chrome extension
+### 5. Load the Chrome extension
 Open chrome://extensions/
-
 Enable Developer mode
-
 Click Load unpacked → select extension folder
