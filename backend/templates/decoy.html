@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Required</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .decoy-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 35px -8px rgba(0,0,0,0.2);
+            width: 400px;
+            padding: 30px;
+            text-align: center;
+        }
+        .warning {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #5a67d8;
+        }
+        .note {
+            font-size: 11px;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="decoy-card">
+        <div class="warning" id="warningMsg">
+            ⚠️ Additional verification required
+        </div>
+        <h2>Session Verification</h2>
+        <p style="margin-bottom: 15px; color: #555;">Please re-enter your credentials to continue.</p>
+        <form id="decoyForm">
+            <input type="text" id="username" placeholder="Email or username" autocomplete="off">
+            <input type="password" id="password" placeholder="Password">
+            <button type="submit">Verify & Continue</button>
+        </form>
+        <div class="note">
+            🔒 This is a research simulation. Your input is logged for security analysis.
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('decoyForm');
+        const urlParams = new URLSearchParams(window.location.search);
+        const originalUrl = urlParams.get('redirect') || 'unknown';
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            await fetch('http://localhost:5000/api/decoy/report', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    original_url: originalUrl,
+                    timestamp: new Date().toISOString()
+                })
+            });
+
+            const warningDiv = document.getElementById('warningMsg');
+            warningDiv.style.background = '#d1fae5';
+            warningDiv.style.color = '#065f46';
+            warningDiv.innerHTML = '✓ Verification complete. Redirecting to safe page...';
+            setTimeout(() => {
+                window.location.href = 'https://www.google.com';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
